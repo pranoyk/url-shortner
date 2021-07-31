@@ -1,7 +1,12 @@
 package main
 
-import "fmt"
+import "main/router"
 
 func main() {
-	fmt.Println("Started url-shortner")
+	startService()
+}
+
+func startService() {
+	engine := router.Init()
+	engine.Run()
 }

@@ -3,6 +3,7 @@ package controller
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"main/model"
 	"main/service"
 	"net/http"
 )
@@ -16,6 +17,12 @@ type urlShortnerController struct {
 }
 
 func (u urlShortnerController) Shorten(ctx *gin.Context) {
+	var request model.ShortenUrlRequestModel
+	if err := ctx.ShouldBindJSON(&request); err != nil {
+		fmt.Println("Error occurred while binding JSON : ", err.Error())
+		ctx.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
 	fmt.Println("Shorten url initiated")
 	shortenedUrl := u.service.Shorten()
 	fmt.Println("url successfully shortened")

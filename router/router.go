@@ -2,18 +2,13 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"net/http"
+	"main/controller"
 )
 
 func Init() *gin.Engine {
 	router := gin.Default()
-	registerController(router)
+	urlShortnerController := controller.NewUrlShortnerController()
+	router.POST("/api/url-shortner/v1/shorten", urlShortnerController.Shorten)
 	return router
 }
 
-func registerController(router *gin.Engine) {
-	router.GET("/api/v1/url-shortner", shortner)
-}
-func shortner(ctx *gin.Context) {
-	ctx.Writer.WriteHeader(http.StatusOK)
-}

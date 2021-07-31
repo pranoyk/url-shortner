@@ -6,6 +6,8 @@ import (
 	"main/util"
 )
 
+//go:generate mockgen -source=url_shortner_service.go -destination=../mocks/mock_url_shortner_service.go -package=mocks
+
 type UrlShortnerService interface {
 	Shorten() model.ShortenResponseModel
 }
@@ -18,7 +20,7 @@ func (u urlShortnerService) Shorten() model.ShortenResponseModel {
 	fmt.Println("performing shorten url in service")
 	randString := u.randomStringGenerator.GetRandString(6)
 	return model.ShortenResponseModel{
-		ShortenedUrl: randString,
+		ShortenedUrl: "/"+randString,
 	}
 }
 

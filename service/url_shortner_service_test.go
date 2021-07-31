@@ -29,5 +29,5 @@ func (suite *UrlShortnerServiceTestSuite) TestShorten_ShouldReturnRandomStringOf
 
 	result := suite.urlShortnerService.Shorten()
 
-	suite.Equal("adf3Lk", result.ShortenedUrl)
+	suite.Equal("/adf3Lk", result.ShortenedUrl)
 }

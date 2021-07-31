@@ -1,6 +1,8 @@
 package main
 
-import "main/router"
+import (
+	"main/router"
+)
 
 func main() {
 	startService()

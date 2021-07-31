@@ -35,7 +35,7 @@ func (m *MockUrlShortnerService) EXPECT() *MockUrlShortnerServiceMockRecorder {
 }
 
 // Shorten mocks base method.
-func (m *MockUrlShortnerService) Shorten() model.ShortenResponseModel {
+func (m *MockUrlShortnerService) Shorten(string) model.ShortenResponseModel {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Shorten")
 	ret0, _ := ret[0].(model.ShortenResponseModel)

@@ -24,7 +24,7 @@ func (u urlShortnerController) Shorten(ctx *gin.Context) {
 		return
 	}
 	fmt.Println("Shorten url initiated")
-	shortenedUrl := u.service.Shorten()
+	shortenedUrl := u.service.Shorten(request.Url)
 	fmt.Println("url successfully shortened")
 	ctx.JSON(http.StatusOK, shortenedUrl)
 }

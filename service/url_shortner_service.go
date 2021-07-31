@@ -2,7 +2,6 @@ package service
 
 import (
 	"fmt"
-	"github.com/patrickmn/go-cache"
 	"main/model"
 	"main/util"
 )
@@ -15,12 +14,12 @@ type UrlShortnerService interface {
 
 type urlShortnerService struct {
 	randomStringGenerator util.RandomStringGenerator
-	cacheClient           *cache.Cache
+	cacheUtil             util.CacheUtil
 }
 
 func (u urlShortnerService) Shorten(url string) model.ShortenResponseModel {
 	fmt.Println("performing shorten url in service")
-	shortenedUrl, result := u.cacheClient.Get(url)
+	shortenedUrl, result := u.cacheUtil.Get(url)
 	if result {
 		fmt.Println("Found url in cache, returning from cache")
 		return model.ShortenResponseModel{
@@ -28,14 +27,14 @@ func (u urlShortnerService) Shorten(url string) model.ShortenResponseModel {
 		}
 	}
 	randString := u.randomStringGenerator.GetRandString(6)
-	newShortenedUrl := fmt.Sprint("localhost:8080/" + randString)
+	newShortenedUrl := fmt.Sprint("http://localhost:8080/" + randString)
 	fmt.Println("Adding shortened url to cache")
-	u.cacheClient.Set(url, newShortenedUrl, cache.DefaultExpiration)
+	u.cacheUtil.Set(url, newShortenedUrl)
 	return model.ShortenResponseModel{
 		ShortenedUrl: newShortenedUrl,
 	}
 }
 
-func NewUrlShortnerService(randomStringGenerator util.RandomStringGenerator, cacheClient *cache.Cache) UrlShortnerService {
-	return urlShortnerService{randomStringGenerator: randomStringGenerator, cacheClient: cacheClient}
+func NewUrlShortnerService(randomStringGenerator util.RandomStringGenerator, cacheUtil util.CacheUtil) UrlShortnerService {
+	return urlShortnerService{randomStringGenerator: randomStringGenerator, cacheUtil: cacheUtil}
 }

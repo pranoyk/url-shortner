@@ -22,3 +22,11 @@
 
     go build
     ./main
+
+## to shorten a url
+    curl http:localhost:8080/api/url-shortner/v1/shorten --data {"url":"your-url"}
+
+## run using docker image
+
+    docker pull pranoyk/url-shortner:latest
+    docker run -p 8080:8080 pranoyk/url-shortner:1.0.0

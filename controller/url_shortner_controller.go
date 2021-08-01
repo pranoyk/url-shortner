@@ -10,10 +10,28 @@ import (
 
 type UrlShortnerController interface {
 	Shorten(ctx *gin.Context)
+	Fetch(ctx *gin.Context)
 }
 
 type urlShortnerController struct {
 	service service.UrlShortnerService
+}
+
+func (u urlShortnerController) Fetch(ctx *gin.Context) {
+	shortenedUrl := ctx.Param("shortenedUrl")
+	if len(shortenedUrl) != 6 {
+		ctx.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+	fmt.Println("fetching actual url")
+	url := fmt.Sprint("http://localhost:8080/"+shortenedUrl)
+	actualUrl, err := u.service.Fetch(url)
+	if err != nil {
+		fmt.Println("Error occurred while fetching actual url :: ", err.Error())
+		ctx.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+	ctx.Redirect(http.StatusMovedPermanently, actualUrl)
 }
 
 func (u urlShortnerController) Shorten(ctx *gin.Context) {

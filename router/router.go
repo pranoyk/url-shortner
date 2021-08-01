@@ -20,5 +20,6 @@ func Init() *gin.Engine {
 	urlShortnerController := controller.NewUrlShortnerController(shortnerService)
 
 	router.POST("/api/url-shortner/v1/shorten", urlShortnerController.Shorten)
+	router.GET("/:shortenedUrl",urlShortnerController.Fetch)
 	return router
 }

@@ -34,16 +34,31 @@ func (m *MockUrlShortnerService) EXPECT() *MockUrlShortnerServiceMockRecorder {
 	return m.recorder
 }
 
-// Shorten mocks base method.
-func (m *MockUrlShortnerService) Shorten(string) model.ShortenResponseModel {
+// Fetch mocks base method.
+func (m *MockUrlShortnerService) Fetch(shortenedUrl string) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Shorten")
+	ret := m.ctrl.Call(m, "Fetch", shortenedUrl)
+	ret0, _ := ret[0].(string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Fetch indicates an expected call of Fetch.
+func (mr *MockUrlShortnerServiceMockRecorder) Fetch(shortenedUrl interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Fetch", reflect.TypeOf((*MockUrlShortnerService)(nil).Fetch), shortenedUrl)
+}
+
+// Shorten mocks base method.
+func (m *MockUrlShortnerService) Shorten(url string) model.ShortenResponseModel {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Shorten", url)
 	ret0, _ := ret[0].(model.ShortenResponseModel)
 	return ret0
 }
 
 // Shorten indicates an expected call of Shorten.
-func (mr *MockUrlShortnerServiceMockRecorder) Shorten() *gomock.Call {
+func (mr *MockUrlShortnerServiceMockRecorder) Shorten(url interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Shorten", reflect.TypeOf((*MockUrlShortnerService)(nil).Shorten))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Shorten", reflect.TypeOf((*MockUrlShortnerService)(nil).Shorten), url)
 }

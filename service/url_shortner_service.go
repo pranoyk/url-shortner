@@ -1,6 +1,7 @@
 package service
 
 import (
+	"errors"
 	"fmt"
 	"main/model"
 	"main/util"
@@ -10,11 +11,22 @@ import (
 
 type UrlShortnerService interface {
 	Shorten(url string) model.ShortenResponseModel
+	Fetch(shortenedUrl string) (string, error)
 }
 
 type urlShortnerService struct {
 	randomStringGenerator util.RandomStringGenerator
 	cacheUtil             util.CacheUtil
+}
+
+func (u urlShortnerService) Fetch(shortenedUrl string) (string, error){
+	fmt.Println("performing fetch for url ", shortenedUrl)
+	actualUrl, found := u.cacheUtil.Get(shortenedUrl)
+	if found {
+		fmt.Println("actual url found")
+		return actualUrl.(string), nil
+	}
+	return "", errors.New("required url not found in our directory")
 }
 
 func (u urlShortnerService) Shorten(url string) model.ShortenResponseModel {
@@ -30,6 +42,7 @@ func (u urlShortnerService) Shorten(url string) model.ShortenResponseModel {
 	newShortenedUrl := fmt.Sprint("http://localhost:8080/" + randString)
 	fmt.Println("Adding shortened url to cache")
 	u.cacheUtil.Set(url, newShortenedUrl)
+	u.cacheUtil.Set(newShortenedUrl, url)
 	return model.ShortenResponseModel{
 		ShortenedUrl: newShortenedUrl,
 	}

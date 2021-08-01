@@ -41,8 +41,8 @@ func (suite *UrlShortnerControllerTestSuite) TestUrlShortner_Shorten_OnSuccess()
 	testUrl := model.ShortenResponseModel{ShortenedUrl: "/1231wE"}
 	expectedResponse, _ := json.Marshal(testUrl)
 
-	suite.context.Request, _ = http.NewRequest("GET", "", bytes.NewBufferString(string(requestInBytes)))
-	suite.mockUrlShortnerService.EXPECT().Shorten().Return(testUrl)
+	suite.context.Request, _ = http.NewRequest("POST", "", bytes.NewBufferString(string(requestInBytes)))
+	suite.mockUrlShortnerService.EXPECT().Shorten("www.google.com").Return(testUrl)
 
 	suite.urlShortnerController.Shorten(suite.context)
 
@@ -52,7 +52,7 @@ func (suite *UrlShortnerControllerTestSuite) TestUrlShortner_Shorten_OnSuccess()
 
 func (suite *UrlShortnerControllerTestSuite) TestUrlShortner_Shorten_OnError_WhenRequestIsMissingBody() {
 
-	suite.context.Request, _ = http.NewRequest("GET", "", http.NoBody)
+	suite.context.Request, _ = http.NewRequest("POST", "", http.NoBody)
 
 	suite.urlShortnerController.Shorten(suite.context)
 
@@ -63,7 +63,7 @@ func (suite *UrlShortnerControllerTestSuite) TestUrlShortner_Shorten_OnError_Whe
 	request := model.ShortenUrlRequestModel{Url: ""}
 	requestInBytes, _ := json.Marshal(request)
 
-	suite.context.Request, _ = http.NewRequest("GET", "", bytes.NewBufferString(string(requestInBytes)))
+	suite.context.Request, _ = http.NewRequest("POST", "", bytes.NewBufferString(string(requestInBytes)))
 
 	suite.urlShortnerController.Shorten(suite.context)
 

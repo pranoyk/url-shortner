@@ -28,5 +28,5 @@
 
 ## run using docker image
 
-    docker pull pranoyk/url-shortner:latest
+    docker pull pranoyk/url-shortner:1.0.0
     docker run -p 8080:8080 pranoyk/url-shortner:1.0.0

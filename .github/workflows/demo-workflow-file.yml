@@ -15,4 +15,13 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
+      - name: Install dependencies
+        run: |
+          go mod vendor
+      - name: Run unit tests
+        run: |
+          go test ./...
+      - name: Build application
+        run: |
+          go build -o url-shortner
       - run: echo "🍏 This job's status is ${{ job.status }}."
